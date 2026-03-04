@@ -140,7 +140,7 @@ export default function RiskPage() {
           )}
 
           {!report && !loading && !error && (
-            <div className="text-center py-12 text-slate-400 text-sm">暂无报告，请点击"重新生成"</div>
+            <div className="text-center py-12 text-slate-400 text-sm">暂无报告，请点击&ldquo;重新生成&rdquo;</div>
           )}
         </div>
 
