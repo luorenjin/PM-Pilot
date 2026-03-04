@@ -65,9 +65,19 @@ export async function POST(request: Request) {
         phase: body.phase,
         owner: body.owner,
         description: body.description,
-      }
+      },
+      include: {
+        materials: true,
+        actionItems: true,
+      },
     })
-    return NextResponse.json(project, { status: 201 })
+
+    const projectWithStatus = {
+      ...project,
+      status: computeProjectStatus(project.materials, project.actionItems),
+    }
+
+    return NextResponse.json(projectWithStatus, { status: 201 })
   } catch {
     return NextResponse.json({ error: 'Failed to create project' }, { status: 500 })
   }
