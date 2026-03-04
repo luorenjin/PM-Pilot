@@ -25,7 +25,6 @@ function SpecsContent() {
   const [activeTab, setActiveTab] = useState(TABS[0])
   const [specs, setSpecs] = useState<Spec[]>([])
   const [projects, setProjects] = useState<Project[]>([])
-  const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editValues, setEditValues] = useState<Partial<Spec>>({})
@@ -34,10 +33,10 @@ function SpecsContent() {
   const [showClone, setShowClone] = useState(false)
 
   const load = () => {
-    if (!selectedProjectId) { setLoading(false); return }
+    if (!selectedProjectId) return
     fetch(`/api/specs?projectId=${selectedProjectId}`)
       .then(r => r.json())
-      .then(data => { setSpecs(data); setLoading(false) })
+      .then(data => setSpecs(data))
   }
 
   useEffect(() => {
@@ -45,9 +44,13 @@ function SpecsContent() {
       setProjects(data)
       if (!selectedProjectId && data.length > 0) setSelectedProjectId(data[0].id)
     })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  useEffect(load, [selectedProjectId])
+  useEffect(() => {
+    load()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedProjectId])
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault()
