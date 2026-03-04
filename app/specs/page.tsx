@@ -36,7 +36,7 @@ function SpecsContent() {
     if (!selectedProjectId) return
     fetch(`/api/specs?projectId=${selectedProjectId}`)
       .then(r => r.json())
-      .then(data => setSpecs(data))
+      .then(data => { setSpecs(data) })
   }
 
   useEffect(() => {
@@ -44,12 +44,13 @@ function SpecsContent() {
       setProjects(data)
       if (!selectedProjectId && data.length > 0) setSelectedProjectId(data[0].id)
     })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [selectedProjectId])
 
   useEffect(() => {
-    load()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (!selectedProjectId) return
+    fetch(`/api/specs?projectId=${selectedProjectId}`)
+      .then(r => r.json())
+      .then(data => { setSpecs(data) })
   }, [selectedProjectId])
 
   const handleCreate = async (e: React.FormEvent) => {
