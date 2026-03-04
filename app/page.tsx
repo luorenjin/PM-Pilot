@@ -40,7 +40,7 @@ export default function DashboardPage() {
     })
     if (res.ok) {
       const newProject = await res.json()
-      setProjects(prev => [...prev, { ...newProject, status: 'green', materials: [], actionItems: [] }])
+      setProjects(prev => [...prev, newProject])
       setShowNewProject(false)
       setForm({ name: '', phase: 'EVT', owner: '', description: '' })
     }
